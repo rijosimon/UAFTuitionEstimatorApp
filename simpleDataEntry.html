@@ -1,0 +1,143 @@
+<nocache>
+<script>
+var globalVersions = [];
+function pushToData(arrayData)
+{
+	if (arrayData != null)
+	{
+		globalVersions.push(arrayData); 
+	}	
+}
+
+function setDisplayBox()
+{
+	var formData = "<br /><h3>Create New Version</h3><br /><form method=\"post\" action = \"&page.url;\"><table border=\"0\"><tr><td>Per Credit Level 1-2 Cost : <input type = 'text' id = 'base12CoursePrice'/></td><td>Per Credit Level 3-4 Cost : <input type = 'text' id = 'base34CoursePrice'/></td><td>Additional fee per Credit for Non Resident Students : <input type = 'text' id = 'nonResUnderAdd' /></td></tr><tr><td>Credits Required for Traditional Graduation : <input type = 'text' id = 'credReq' /></td><td>Cost - Dorm Doubles Per Semester : <input type = 'text' id = 'doublePerSem' /></td><td>Cost - Dorm Singles Per Semester : <input type = 'text' id = 'singlePerSem'/></td></tr><tr><td>Cost - Apartment Singles Per Semester : <input type = 'text' id = 'apartSinglePerSem'/></td><td>Cost - Apartment Doubles Per Semester : <input type = 'text' id = 'apartDoublePerSem'/></td><td>Cost - Apartment Single in Doubles Per Semester : <input type = 'text' id = 'doubleSinglePerSem'/></td></tr><tr><td>Cost - Graduate Course Price Per Credit : <input type = 'text' id = 'postGradCoursePrice'/></td><td>Cost - Additional Cost Per Credit Non-Resident Graduate Students : <input type = 'text' id = 'nonResGradAdd'/></td><td>Additional Fee Per Semester (ASUAF / SRC / IT etc.) : <input type = 'text' id = 'addFeePerSem'/></td></tr><tr><td>Meal Plan 1 : <input type = 'text' id = 'mealPlan1'/></td><td>Meal Plan 2 : <input type = 'text' id = 'mealPlan2'/></td><td>Meal Plan 3 : <input type = 'text' id = 'mealPlan3'/></td></tr><tr><td>Meal Plan 4 : <input type = 'text' id = 'mealPlan4'/></td><td>Meal Plan 5 : <input type = 'text' id = 'mealPlan5'/></td><td>Meal Plan 6 : <input type = 'text' id = 'mealPlan6'/></td></tr><tr><td>National Average Tuition - In State - Per Year : <input type = 'text' id = 'natAveInPerSem'/></td><td>National Average Tuition - Out of State - Per Year : <input type = 'text' id = 'natAveOutPerSem'/></td><td>National Average Other cost - Per Year : <input type = 'text' id = 'natAveOtherPerSem'/></td></tr></table><br /><input type = 'submit' value=\"Create New\"/><input type = 'submit' value=\"Create New and Activate\"/></form>";
+	var modifyData ="<form action=\"&page.url;\" method=\"get\"><select name = 'versionOption' id = 'versionChoice' onchange = 'getVersion(this)'><option value='null'>Select version to modify</option>";
+	for(var i = 0; i<globalVersions.length; i++)
+	{
+		modifyData+="<option value="+globalVersions[i]+">Version "+globalVersions[i]+" </option>";
+	}
+	modifyData+="</select><br /><input type=\"submit\" value=\"Modify\" /></form>";
+	if(document.getElementById('vchoice').value == "form")
+	{
+		document.getElementById('displayBox').innerHTML = formData;
+		document.getElementById('dbExecute').innerHTML = " ";
+	}
+	else if(document.getElementById('vchoice').value == "change")
+	{
+			document.getElementById('displayBox').innerHTML = modifyData;
+	}
+	else
+	{
+		document.getElementById('displayBox').innerHTML = " ";
+	}
+}
+</script>
+<eval><insert file="/jscalctest/db.inc"/></eval>
+<set variable="var.arraySize" value = "0" />
+<set variable="var.arrayData" type="array">
+<emit source = "sql" host="&var.db_w;" query = "select version from tuitionCalc">	
+  <value>&_.version;</value><inc variable="var.arraySize"/>
+</emit>
+ </set> 
+<for variable="var.index" from="1" to="&var.arraySize;">
+  <set variable="var.temp" from="var.arrayData.&var.index;"/>
+  <script> 
+  pushToData(&var.temp;); </script>
+</for>
+<b>Set Datasource : </b><select name = 'vOption' id = 'vchoice' onchange = 'setDisplayBox()'>
+<option value="null">Create new <b>OR</b> modify version</option>
+<option value="form">Create new data source...</option>
+<option value="change">Make changes to a current data source...</option>
+</select>
+<div id = "displayBox"></div>
+<emit source = "sql" host="&var.db_w;" query = "select timed, base12CoursePrice, base34CoursePrice, nonResUnderAdd, credReq, doublePerSem, singlePerSem, apartSinglePerSem, apartDoublePerSem, doubleSinglePerSem, postGradCoursePrice, nonResGradAdd, addFeePerSem, mealPlan1, mealPlan2, mealPlan3, mealPlan4, mealPlan5, mealPlan6, natAveInPerSem, natAveOutPerSem, natAveOtherPerSem, active from tuitionCalc where version='&form.versionOption:sql;'" >
+<div id="dbExecute">
+<if variable = "form.versionOption">
+        <form method="post" action = "&page.url;">
+	<set variable="var.currVersion" value = "&form.versionOption:mysql;" />
+	    <h3>Modify Version &form.versionOption; from &_.timed;</h3>
+    	<br />
+    	<table border="0">
+    	<tr>
+		<td>Per Credit Level 1-2 Cost : <input type = 'text' name ='base12CoursePrice' id = 'base12CoursePrice' value = '&_.base12CoursePrice;'/></td>
+		<td>Per Credit Level 3-4 Cost : <input type = 'text' name = 'base34CoursePrice' id = 'base34CoursePrice' value = '&_.base34CoursePrice;'/></td>
+		<td>Additional fee per Credit for Non Resident Students : <input type = 'text' name = 'nonResUnderAdd' id = 'nonResUnderAdd' value = '&_.nonResUnderAdd;'/></td>
+		</tr>
+		<tr>
+		<td>Credits Required for Traditional Graduation : <input type = 'text' name = 'credReq' id = 'credReq' value = '&_.credReq;'/></td>
+		<td>Cost - Dorm Doubles Per Semester : <input type = 'text' name = 'doublePerSem' id = 'doublePerSem' value = '&_.doublePerSem;'/></td>
+		<td>Cost - Dorm Singles Per Semester : <input type = 'text' name = 'singlePerSem' id = 'singlePerSem' value = '&_.singlePerSem;'/></td>
+		</tr>
+		<tr>
+		<td>Cost - Apartment Singles Per Semester : <input type = 'text' name = 'apartSinglePerSem' id = 'apartSinglePerSem' value = '&_.apartSinglePerSem;'/></td>
+		<td>Cost - Apartment Doubles Per Semester : <input type = 'text' name = 'apartDoublePerSem' id = 'apartDoublePerSem' value = '&_.apartDoublePerSem;'/></td>
+		<td>Cost - Apartment Single in Doubles Per Semester : <input type = 'text' name = 'doubleSinglePerSem' id = 'doubleSinglePerSem' value = '&_.doubleSinglePerSem;'/></td>
+		</tr>
+		<tr>
+		<td>Cost - Graduate Course Price Per Credit : <input type = 'text' name = 'postGradCoursePrice' id = 'postGradCoursePrice' value = '&_.postGradCoursePrice;'/></td>
+		<td>Cost - Additional Cost Per Credit Non-Resident Graduate Students : <input type = 'text' name = 'nonResGradAdd' id = 'nonResGradAdd' value = '&_.nonResGradAdd;'/></td>
+		<td>Additional Fee Per Semester (ASUAF / SRC / IT etc.) : <input type = 'text' name = 'addFeePerSem' id = 'addFeePerSem' value = '&_.addFeePerSem;'/></td>
+		</tr>
+		<tr>
+		<td>Meal Plan 1 : <input type = 'text'  name = 'mealPlan1' id = 'mealPlan1' value = '&_.mealPlan1;'/></td>
+		<td>Meal Plan 2 : <input type = 'text' name = 'mealPlan2' id = 'mealPlan2' value = '&_.mealPlan2;'/></td>
+		<td>Meal Plan 3 : <input type = 'text' name = 'mealPlan3' id = 'mealPlan3' value = '&_.mealPlan3;'/></td>
+		</tr>
+		<tr>
+		<td>Meal Plan 4 : <input type = 'text' name = 'mealPlan4' id = 'mealPlan4' value = '&_.mealPlan4;'/></td>
+		<td>Meal Plan 5 : <input type = 'text' name = 'mealPlan5' id = 'mealPlan5' value = '&_.mealPlan5;'/></td>
+		<td>Meal Plan 6 : <input type = 'text' name = 'mealPlan6' id = 'mealPlan6' value = '&_.mealPlan6;'/></td>
+		</tr>
+		<tr>
+		<td>National Average Tuition - In State - Per Year : <input type = 'text' name = 'natAveInPerSem' id = 'natAveInPerSem' value = '&_.natAveInPerSem;'/></td>
+		<td>National Average Tuition - Out of State - Per Year : <input type = 'text' name = 'natAveOutPerSem' id = 'natAveOutPerSem' value = '&_.natAveOutPerSem;'/></td>
+		<td>National Average Other cost - Per Year : <input type = 'text' name = 'natAveOtherPerSem' id = 'natAveOtherPerSem' value = '&_.natAveOtherPerSem;'/></td>
+		</tr>
+                <tr>
+                <td>Set Version (Number only): <input type = 'text' name = 'version' id = 'version' value = '&_.version;'/></td>
+                <set variable = "var.active" value = "&_.active;" />
+                <if variable = "var.active = 1">
+                <td>Active : Yes</td>
+                </if>
+                <else>
+                <td>Active : No</td>
+                </else>
+                </tr>
+		</table>
+		<input type = 'submit' name = "submitT" value="Save"/><input type = 'submit' name = "submitT" value="Save and Activate"/><input type = 'submit' name = "submitT" value="Save as New and Activate"/>
+		</form>
+</if>
+<else>
+</else>	
+</emit>
+</div>
+<div id="dbInsertDiv">
+<if variable = "form.base12CoursePrice">
+<if variable = "form.submitT = Save">
+<sqlquery host = "&var.db_w;" query = "UPDATE tuitionCalc SET base12CoursePrice='&form.base12CoursePrice:sql;', base34CoursePrice = '&form.base34CoursePrice:sql;', nonResUnderAdd = '&form.nonResUnderAdd:sql;', credReq = '&form.credReq:sql;', doublePerSem = '&form.doublePerSem:sql;', singlePerSem = '&form.singlePerSem:sql;', apartSinglePerSem = '&form.apartSinglePerSem:sql;', apartDoublePerSem = '&form.apartDoublePerSem:sql;', doubleSinglePerSem = '&form.doubleSinglePerSem:sql;', postGradCoursePrice = '&form.postGradCoursePrice:sql;', nonResGradAdd = '&form.nonResGradAdd:sql;', addFeePerSem = '&form.addFeePerSem:sql;', mealPlan1 = '&form.mealPlan1:sql;', mealPlan2 = '&form.mealPlan2:sql;', mealPlan3 = '&form.mealPlan3:sql;', mealPlan4 = '&form.mealPlan4:sql;', mealPlan5 = '&form.mealPlan5:sql;', mealPlan6 = '&form.mealPlan6:sql;', natAveInPerSem = '&form.natAveInPerSem:sql;', natAveOutPerSem = '&form.natAveOutPerSem:sql;', natAveOtherPerSem = '&form.natAveOtherPerSem:sql;', active = 0 where version = '&var.currVersion:sql;'" />
+</if>
+<elseif variable = "form.submitT = Save and Activate">
+<sqlquery host = "&var.db_w;" query = "UPDATE tuitionCalc SET active = 0 where active = 1" />
+<sqlquery host = "&var.db_w;" query = "UPDATE tuitionCalc SET base12CoursePrice='&form.base12CoursePrice:sql;', base34CoursePrice = '&form.base34CoursePrice:sql;', nonResUnderAdd = '&form.nonResUnderAdd:sql;', credReq = '&form.credReq:sql;', doublePerSem = '&form.doublePerSem:sql;', singlePerSem = '&form.singlePerSem:sql;', apartSinglePerSem = '&form.apartSinglePerSem:sql;', apartDoublePerSem = '&form.apartDoublePerSem:sql;', doubleSinglePerSem = '&form.doubleSinglePerSem:sql;', postGradCoursePrice = '&form.postGradCoursePrice:sql;', nonResGradAdd = '&form.nonResGradAdd:sql;', addFeePerSem = '&form.addFeePerSem:sql;', mealPlan1 = '&form.mealPlan1:sql;', mealPlan2 = '&form.mealPlan2:sql;', mealPlan3 = '&form.mealPlan3:sql;', mealPlan4 = '&form.mealPlan4:sql;', mealPlan5 = '&form.mealPlan5:sql;', mealPlan6 = '&form.mealPlan6:sql;', natAveInPerSem = '&form.natAveInPerSem:sql;', natAveOutPerSem = '&form.natAveOutPerSem:sql;', natAveOtherPerSem = '&form.natAveOtherPerSem:sql;', active = 1 where version = '&var.currVersion:sql;'" />
+</elseif>
+<elseif variable = "form.submitT = Save as New and Activate">
+<inc variable="var.temp"/>
+<sqlquery host = "&var.db_w;" query = "UPDATE tuitionCalc SET active = 0 where active = 1" />
+<sqlquery host = "&var.db_w;" query = "INSERT INTO tuitionCalc (version, base12CoursePrice, base34CoursePrice, nonResUnderAdd, credReq, doublePerSem, singlePerSem, apartSinglePerSem, apartDoublePerSem, doubleSinglePerSem, postGradCoursePrice, nonResGradAdd, addFeePerSem, mealPlan1, mealPlan2, mealPlan3, mealPlan4, mealPlan5, mealPlan6, natAveInPerSem, natAveOutPerSem, natAveOtherPerSem, active) VALUES (5, '&form.base12CoursePrice:sql;', '&form.base34CoursePrice:sql;', '&form.nonResUnderAdd:sql;', '&form.credReq:sql;', '&form.doublePerSem:sql;', '&form.singlePerSem:sql;', '&form.apartSinglePerSem:sql;', '&form.apartDoublePerSem:sql;', '&form.doubleSinglePerSem:sql;', '&form.postGradCoursePrice:sql;', '&form.nonResGradAdd:sql;', '&form.addFeePerSem:sql;', '&form.mealPlan1:sql;', '&form.mealPlan2:sql;', '&form.mealPlan3:sql;', '&form.mealPlan4:sql;', '&form.mealPlan5:sql;', '&form.mealPlan6:sql;', '&form.natAveInPerSem:sql;', '&form.natAveOutPerSem:sql;', '&form.natAveOtherPerSem:sql;',  0)" />
+</elseif>
+<elseif variable = "form.submitT = Create New">
+<inc variable="var.temp"/>
+<sqlquery host = "&var.db_w;" query = "INSERT INTO tuitionCalc (version, base12CoursePrice, base34CoursePrice, nonResUnderAdd, credReq, doublePerSem, singlePerSem, apartSinglePerSem, apartDoublePerSem, doubleSinglePerSem, postGradCoursePrice, nonResGradAdd, addFeePerSem, mealPlan1, mealPlan2, mealPlan3, mealPlan4, mealPlan5, mealPlan6, natAveInPerSem, natAveOutPerSem, natAveOtherPerSem, active) VALUES (5, '&form.base12CoursePrice:sql;', '&form.base34CoursePrice:sql;', '&form.nonResUnderAdd:sql;', '&form.credReq:sql;', '&form.doublePerSem:sql;', '&form.singlePerSem:sql;', '&form.apartSinglePerSem:sql;', '&form.apartDoublePerSem:sql;', '&form.doubleSinglePerSem:sql;', '&form.postGradCoursePrice:sql;', '&form.nonResGradAdd:sql;', '&form.addFeePerSem:sql;', '&form.mealPlan1:sql;', '&form.mealPlan2:sql;', '&form.mealPlan3:sql;', '&form.mealPlan4:sql;', '&form.mealPlan5:sql;', '&form.mealPlan6:sql;', '&form.natAveInPerSem:sql;', '&form.natAveOutPerSem:sql;', '&form.natAveOtherPerSem:sql;',  0)" />
+</elseif>
+<elseif variable = "form.submitT = Create New and Activate">
+<sqlquery host = "&var.db_w;" query = "UPDATE tuitionCalc SET active = 0 where active = 1" />
+<inc variable="var.temp"/>
+<sqlquery host = "&var.db_w;" query = "INSERT INTO tuitionCalc (version, base12CoursePrice, base34CoursePrice, nonResUnderAdd, credReq, doublePerSem, singlePerSem, apartSinglePerSem, apartDoublePerSem, doubleSinglePerSem, postGradCoursePrice, nonResGradAdd, addFeePerSem, mealPlan1, mealPlan2, mealPlan3, mealPlan4, mealPlan5, mealPlan6, natAveInPerSem, natAveOutPerSem, natAveOtherPerSem, active) VALUES (4, '&form.base12CoursePrice:sql;', '&form.base34CoursePrice:sql;', '&form.nonResUnderAdd:sql;', '&form.credReq:sql;', '&form.doublePerSem:sql;', '&form.singlePerSem:sql;', '&form.apartSinglePerSem:sql;', '&form.apartDoublePerSem:sql;', '&form.doubleSinglePerSem:sql;', '&form.postGradCoursePrice:sql;', '&form.nonResGradAdd:sql;', '&form.addFeePerSem:sql;', '&form.mealPlan1:sql;', '&form.mealPlan2:sql;', '&form.mealPlan3:sql;', '&form.mealPlan4:sql;', '&form.mealPlan5:sql;', '&form.mealPlan6:sql;', '&form.natAveInPerSem:sql;', '&form.natAveOutPerSem:sql;', '&form.natAveOtherPerSem:sql;',  1)" />
+</elseif>
+<else>
+There was an RXML error. Contact the stupid programmer who wrote this code at: rssimon@alaska.edu
+</else>
+</if>
+</div>
+</nocache>

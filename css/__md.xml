@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<files>
+  <dir>
+    <__export-encoding type="int">0</__export-encoding>
+    <uuid>8d7e7a32-09e1-40ec-842c-4af6e2235447</uuid>
+  </dir>
+  <file name="normalize.css">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title></title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>fe6b164d-66b9-4db6-a148-645d8ed42482</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>text/css</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+  </file>
+  <file name="style.css">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title></title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>f6cf6c91-5050-4840-9f86-c681dacd5679</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>text/css</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+  </file>
+</files>

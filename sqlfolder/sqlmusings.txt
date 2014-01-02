@@ -1,0 +1,1 @@
+ base12CoursePrice, base34CoursePrice, nonResUnderAdd, credReq, doublePerSem, singlePerSem, apartSinglePerSem, apartDoublePerSem, doubleSinglePerSem, postGradCoursePrice, nonResGradAdd, addFeePerSem, mealPlan0, mealPlan1, mealPlan2, mealPlan3, mealPlan4, mealPlan5, mealPlan6, natAveInPerSem, natAveOutPerSem, natAveOtherPerSem from tuitionCalc where version = 2

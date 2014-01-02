@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<files>
+  <dir>
+    <__export-encoding type="int">0</__export-encoding>
+    <uuid>4d94fd63-c5f5-4f6a-ad14-80901e546ed6</uuid>
+  </dir>
+  <file name="dataEntry.html">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title></title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>66f64d2a-b918-47ee-87f3-54f46ddce8af</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>text/html</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+    <template>__0</template>
+  </file>
+  <file name="external.js">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title></title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>eaedf222-7881-4c15-b9d2-261fc4af52f7</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>application/x-javascript</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+  </file>
+  <file name="highcharts.js">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title></title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>fc17a58c-5d25-4692-8f0a-9893923ce44b</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>application/x-javascript</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+  </file>
+  <file name="index.html">
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <title>jQuery UI Accordion</title>
+    <keywords></keywords>
+    <description></description>
+    <uuid>675f740e-ec21-413f-a3d8-ffe1bede396e</uuid>
+    <__export-encoding>iso-8859-1</__export-encoding>
+    <author>69731</author>
+    <category></category>
+    <external_use type="pike64">tmtlMKAoOA==</external_use>
+    <http-content-type>text/html</http-content-type>
+    <notify type="int">0</notify>
+    <stationery></stationery>
+    <template>__0</template>
+  </file>
+</files>
